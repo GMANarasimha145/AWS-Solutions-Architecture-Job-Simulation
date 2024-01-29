@@ -1,1 +1,43 @@
 
+**1. VPC (Virtual Private Cloud):**
+
+The foundation of the architecture is a VPC, which acts as a virtual network dedicated to your application. This provides isolation and security from other AWS resources and the public internet. You can see three subnets within the VPC:
+
+* **Public Subnets:** These subnets host publicly accessible resources like the Application Load Balancer (ALB).
+* **Private Subnets:** These subnets host resources that require internal access only, such as the web servers and the database.
+
+**2. Route Tables:**
+
+Each subnet is associated with a route table that determines how traffic is routed to different parts of the VPC and the internet. The public subnets have routes to the internet gateway, while the private subnets have routes to the NAT Gateway for outbound internet access.
+
+**3. Internet Gateway:**
+
+The internet gateway allows resources in the public subnet to communicate with the internet.
+
+**4. NAT Gateway:**
+
+The NAT gateway allows resources in the private subnet to access the internet without having public IP addresses. This helps improve security by keeping private resources hidden from the public internet.
+
+**5. Application Load Balancer (ALB):**
+
+The ALB distributes incoming traffic across multiple web servers (EC2 instances) in the private subnet. This improves scalability and fault tolerance, ensuring that your application remains available even if one or more web servers fails.
+
+**6. EC2 Instances:**
+
+The web servers are Amazon Elastic Compute Cloud (EC2) instances running the PHP application code. They are launched in the private subnet and scaled automatically based on traffic demand.
+
+**7. RDS (Relational Database Service):**
+
+The database is hosted on Amazon RDS, a managed database service that provides high availability, scalability, and security. It's located in its own VPC for further isolation and security.
+
+**8. S3 Bucket:**
+
+The S3 bucket is used to store static content like images and files for the web application. It's a highly scalable and cost-effective storage solution.
+
+**9. Security Groups:**
+
+Security groups define the inbound and outbound traffic rules for each component in the architecture. They help control access and prevent unauthorized communication.
+
+**10. CodePipeline and CodeDeploy:**
+
+These services are used for continuous integration and deployment (CI/CD) of the application code. CodePipeline automates the code build, test, and packaging process, while CodeDeploy deploys the code changes to the EC2 instances.
